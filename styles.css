@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Outfit';
-    src: url('assets/fonts/Outfit-Variable.woff2') format('woff2');
+    src: url('/assets/fonts/Outfit-Variable.woff2') format('woff2');
     font-weight: 100 900;
     font-display: swap;
 }
@@ -9,6 +9,7 @@ body {
     background-color: #161616;
     margin: 0;
     padding: 0;
+    min-height: 100vh; /* Ensure full height */
 }
 
 /* CSS variables for maintaining the aspect ratio */
@@ -26,6 +27,7 @@ body {
     top: 2.31vh;         /* 25px in 1080p */
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1000; /* Ensure the navbar stays above other content */
 }
 
 .nav-logo {
@@ -38,6 +40,7 @@ body {
 }
 
 .nav-links {
+    /* No default active index - will be set via JavaScript before visibility */
     --active-index: 0;
     --item-count: 4; /* Number of nav links */
     display: flex;
@@ -47,10 +50,17 @@ body {
     width: 69.99%;   /* Remaining space for links */
     margin: 0;
     padding: 0;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.2s ease-out;
 }
 
-/* Class added before animations start */
-.nav-links.ready {
+/* Show links when they're ready */
+.nav-links.visible {
+    opacity: 1;
+}
+
+/* Class added to enable animations after initial positioning */
+.nav-links.ready::after {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -61,7 +71,8 @@ body {
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    font-family: 'Outfit', sans-serif;    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
     font-size: 2.59vh;  /* 28px in 1080p */
     color: white;    
     white-space: nowrap;
@@ -82,7 +93,7 @@ body {
     width: calc(100% / var(--item-count)); /* Width based on number of nav items */
     height: 100%;    
     z-index: 1;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* No transition initially - will be added by .ready class */
     transform: translateX(calc(var(--active-index) * 100%));
 }
 
@@ -91,7 +102,8 @@ body {
     background: linear-gradient(to bottom right, 
         rgba(125, 125, 125, 0.275), /* #7D7D7D at 27.5% opacity */
         rgba(125, 125, 125, 0.10)   /* #7D7D7D at 10% opacity */
-    );box-shadow: 0.37vh 0.37vh 3.7vh 0 rgba(0, 0, 0, 0.30); /* 4px 4px 40px 0 black 30% */
+    );
+    box-shadow: 0.37vh 0.37vh 3.7vh 0 rgba(0, 0, 0, 0.30); /* 4px 4px 40px 0 black 30% */
     backdrop-filter: blur(2.31vh); /* 25px Figma blur */
     -webkit-backdrop-filter: blur(2.31vh); /* For Safari */
 }
@@ -116,4 +128,14 @@ body {
     mask-composite: exclude;
     pointer-events: none;
     z-index: -2;
+}
+
+/* Add page transition styles */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body > *:not(nav) {
+    animation: fadeIn 0.2s ease-out;
 }

@@ -3,19 +3,19 @@
     "links": [
         {
             "name": "Home",
-            "href": "#home"
+            "href": "/"
         },
         {
             "name": "Mods",
-            "href": "#blog"
+            "href": "/mods"
         },
         {
             "name": "Blog",
-            "href": "#Blog"
+            "href": "/blog"
         },
         {
             "name": "About",
-            "href": "#about"
+            "href": "/about"
         }
     ]
 }
