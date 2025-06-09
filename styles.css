@@ -1,0 +1,107 @@
+@font-face {
+    font-family: 'Outfit';
+    src: url('assets/fonts/Outfit-Variable.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+body {
+    background-color: #161616;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar.rectangle {
+    height: 6.02vh;      /* 65px in 1080p */
+    position: fixed;
+    top: 2.31vh;         /* 25px in 1080p */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-logo {
+    position: absolute;
+    left: 0.625vw;     /* 12px in 1920p */
+    top: 1.48vh;       /* 16px in 1080p */
+    width: 8.7vw;      /* 167px in 1920p */
+    height: 2.96vh;    /* 32px in 1080p */
+    object-fit: contain; /* Maintains aspect ratio */
+}
+
+.nav-links {
+    --active-index: 0;
+    display: flex;
+    position: relative;
+    left: 19.54vh; /* Total: 12px padding + 167px logo + 32px spacing = 211px in 1080p */
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Class added before animations start */
+.nav-links.ready {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link {
+    height: 100%;
+    width: 6.41vw;      /* 123px in 1920p */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 2.59vh;  /* 28px in 1080p */
+    color: white;    white-space: nowrap;
+    position: relative;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+.nav-link.active {
+    color: #595959;
+}
+
+.nav-links::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 7.41vh; /* 80px in 1080p - same as default rectangle */
+    width: 6.41vw;  /* Same as nav-link width */
+    height: 100%;    z-index: 1;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(calc(var(--active-index) * 100%));
+}
+
+.rectangle{
+    border-radius: 7.41vh; /* 80px in 1080p */
+    background: linear-gradient(to bottom right, 
+        rgba(125, 125, 125, 0.275), /* #7D7D7D at 27.5% opacity */
+        rgba(125, 125, 125, 0.10)   /* #7D7D7D at 10% opacity */
+    );box-shadow: 0.37vh 0.37vh 3.7vh 0 rgba(0, 0, 0, 0.30); /* 4px 4px 40px 0 black 30% */
+    backdrop-filter: blur(2.31vh); /* 25px Figma blur */
+    -webkit-backdrop-filter: blur(2.31vh); /* For Safari */
+}
+
+.rectangle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 0.24vh solid transparent; /* 2px in 1080p - adjusted for actual rendering */
+    background: linear-gradient(to bottom right, 
+        rgba(156, 156, 156, 0.60), /* #9C9C9C at 60% */
+        rgba(156, 156, 156, 0.25)  /* #9C9C9C at 25% */
+    ) border-box;
+    -webkit-mask:
+        linear-gradient(white 0 0) padding-box, 
+        linear-gradient(white 0 0);
+    mask:
+        linear-gradient(white 0 0) padding-box, 
+        linear-gradient(white 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -2;
+}

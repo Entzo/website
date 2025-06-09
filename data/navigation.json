@@ -1,0 +1,21 @@
+{
+    "width": "36.645",
+    "links": [
+        {
+            "name": "Home",
+            "href": "#home"
+        },
+        {
+            "name": "Mods",
+            "href": "#blog"
+        },
+        {
+            "name": "Blog",
+            "href": "#Blog"
+        },
+        {
+            "name": "About",
+            "href": "#about"
+        }
+    ]
+}
