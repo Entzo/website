@@ -2,10 +2,9 @@
 function updateNavigation() {
     fetch('data/navigation.json?' + new Date().getTime())  // Prevent caching
         .then(response => response.json())
-        .then(data => {
-            // Set navbar width from JSON
-            const navbar = document.querySelector('.navbar');
-            navbar.style.width = `${data.width}vw`;
+        .then(data => {            // We're now using CSS to maintain aspect ratio
+            // No need to set width from JSON as it's calculated based on height
+            document.documentElement.style.setProperty('--navbar-ratio', data.width / 6.02);
 
             // Clear existing links
             const navLinks = document.querySelector('.nav-links');
@@ -23,10 +22,7 @@ function updateNavigation() {
                     // Position the pill under the active link
                     navLinks.style.setProperty('--active-index', index);
                 }
-                a.textContent = link.name;
-                if (link.width) { // Optional custom width
-                    a.style.width = `${parseInt(link.width) / 1920 * 100}vw`;
-                }
+                a.textContent = link.name;                // We don't set individual link widths anymore, they're all equal using flex: 1
                 navLinks.appendChild(a);
             });
         })

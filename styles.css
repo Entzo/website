@@ -11,8 +11,17 @@ body {
     padding: 0;
 }
 
+/* CSS variables for maintaining the aspect ratio */
+:root {
+    --navbar-height: 6.02vh;   /* 65px in 1080p */
+    --navbar-width: 36.645vw;  /* 703px in 1920p - from navigation.json */
+    --navbar-ratio: calc(var(--navbar-width) / var(--navbar-height));
+}
+
 .navbar.rectangle {
-    height: 6.02vh;      /* 65px in 1080p */
+    /* Fixed height with aspect ratio to maintain proportions */
+    height: var(--navbar-height);
+    width: calc(var(--navbar-height) * 10.82); /* Based on 703px:65px ratio */
     position: fixed;
     top: 2.31vh;         /* 25px in 1080p */
     left: 50%;
@@ -21,19 +30,21 @@ body {
 
 .nav-logo {
     position: absolute;
-    left: 0.625vw;     /* 12px in 1920p */
-    top: 1.48vh;       /* 16px in 1080p */
-    width: 8.7vw;      /* 167px in 1920p */
-    height: 2.96vh;    /* 32px in 1080p */
+    left: 1.71%;       /* 12px / 703px = ~1.71% of navbar width */
+    top: 24.62%;       /* 16px / 65px = ~24.62% of navbar height */
+    width: 23.76%;     /* 167px / 703px = ~23.76% of navbar width */
+    height: 49.23%;    /* 32px / 65px = ~49.23% of navbar height */
     object-fit: contain; /* Maintains aspect ratio */
 }
 
 .nav-links {
     --active-index: 0;
+    --item-count: 4; /* Number of nav links */
     display: flex;
-    position: relative;
-    left: 19.54vh; /* Total: 12px padding + 167px logo + 32px spacing = 211px in 1080p */
+    position: absolute;
+    left: 30.01%;    /* (12px + 167px + 32px) / 703px = ~30.01% of navbar width */
     height: 100%;
+    width: 69.99%;   /* Remaining space for links */
     margin: 0;
     padding: 0;
 }
@@ -45,15 +56,15 @@ body {
 
 .nav-link {
     height: 100%;
-    width: 6.41vw;      /* 123px in 1920p */
+    flex: 1;           /* Each link takes equal width */
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
+    font-family: 'Outfit', sans-serif;    font-weight: 600;
     font-size: 2.59vh;  /* 28px in 1080p */
-    color: white;    white-space: nowrap;
+    color: white;    
+    white-space: nowrap;
     position: relative;
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
@@ -68,8 +79,9 @@ body {
     position: absolute;
     background: white;
     border-radius: 7.41vh; /* 80px in 1080p - same as default rectangle */
-    width: 6.41vw;  /* Same as nav-link width */
-    height: 100%;    z-index: 1;
+    width: calc(100% / var(--item-count)); /* Width based on number of nav items */
+    height: 100%;    
+    z-index: 1;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateX(calc(var(--active-index) * 100%));
 }
