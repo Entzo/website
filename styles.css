@@ -17,6 +17,17 @@ body {
     --navbar-height: 6.02vh;   /* 65px in 1080p */
     --navbar-width: 36.645vw;  /* 703px in 1920p - from navigation.json */
     --navbar-ratio: calc(var(--navbar-width) / var(--navbar-height));
+
+    /* Mods frame dimensions */
+    --mods-frame-height: 53.24vh;   /* 575px in 1080p */
+    --mods-rect-width: 25.78vw;     /* 495px in 1920p */
+    --mods-rect-height: 53.24vh;    /* 575px in 1080p */
+    --mods-rect-gap: 5.63vw;        /* 108px in 1920p */
+    --mods-y-position: 19.63vh;     /* 212px in 1080p */
+
+    /* Adding button dimensions */
+    --button-height: 5.46vh;  /* 59px in 1080p */
+    --button-radius: 7.41vh;  /* 80px in 1080p - same as rectangle */
 }
 
 .navbar.rectangle {
@@ -138,4 +149,71 @@ body {
 
 body > *:not(nav) {
     animation: fadeIn 0.2s ease-out;
+}
+
+/* Mods page styles */
+.mods-frame {
+    width: 100%;
+    height: var(--mods-frame-height);
+    position: absolute;
+    top: var(--mods-y-position);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mods-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--mods-rect-gap);
+}
+
+.mod-rectangle {
+    width: var(--mods-rect-width);
+    height: var(--mods-frame-height);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 4.63vh; /* 50px in 1080p */
+    box-sizing: border-box;
+}
+
+/* Reusable button style based on navigation pill */
+.pill-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--button-height);
+    border-radius: var(--button-radius);
+    background-color: white;
+    padding: 0 2.08vw;  /* Add some horizontal padding */
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    outline: none;
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 2.59vh;  /* 28px in 1080p - same as nav links */
+    color: #595959;     /* Same as active link text color */
+}
+
+/* Hover effect - 10% darker */
+.pill-button:hover {
+    background-color: #e6e6e6;  /* White darkened by 10% */
+}
+
+/* Active/pressed state - 20% darker */
+.pill-button:active {
+    background-color: #cccccc;  /* White darkened by 20% */
+}
+
+/* Make buttons inside mod rectangles fill the width */
+.mod-rectangle .pill-button {
+    width: calc(100% - 9.26vh); /* Add horizontal padding of 100px (9.26vh) total */
+    margin: 0 auto;
+    margin-top: auto; /* Push button to the bottom */
+    box-sizing: border-box;
+    padding: 0 4.63vh; /* Add 50px (4.63vh) padding on each side */
 }
