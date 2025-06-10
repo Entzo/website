@@ -192,9 +192,7 @@ function updateNavigation() {
                             preloadPage('/').then(() => {
                                 console.log('Home preload complete');
                             });
-                        }
-                        
-                        // Wait for animation to complete then transition seamlessly
+                        }                        // Wait for animation to complete then transition seamlessly
                         setTimeout(() => {
                             console.log('Attempting transition to:', href);
                             // Try seamless transition first, fallback to normal navigation

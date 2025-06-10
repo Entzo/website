@@ -73,6 +73,10 @@ body {
 /* Class added to enable animations after initial positioning */
 .nav-links.ready::after {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* GPU acceleration optimizations */
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .nav-link {
@@ -90,6 +94,9 @@ body {
     position: relative;
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
+    /* GPU acceleration for text color changes */
+    will-change: color;
+    transform: translateZ(0); /* Force hardware acceleration */
 }
 
 .nav-link.active {
@@ -106,6 +113,10 @@ body {
     z-index: 1;
     /* No transition initially - will be added by .ready class */
     transform: translateX(calc(var(--active-index) * 100%));
+    /* GPU acceleration optimizations */
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
 }
 
 .rectangle{
@@ -117,6 +128,31 @@ body {
     box-shadow: 0.37vh 0.37vh 3.7vh 0 rgba(0, 0, 0, 0.30); /* 4px 4px 40px 0 black 30% */
     backdrop-filter: blur(2.31vh); /* 25px Figma blur */
     -webkit-backdrop-filter: blur(2.31vh); /* For Safari */
+    position: relative;
+    overflow: hidden;
+    /* Very subtle blur on background to reduce color banding */
+    filter: blur(0.05vh); /* ~0.5px blur to smooth gradient banding */
+}
+
+/* Noise overlay using SVG */
+.rectangle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;    right: 0;
+    bottom: 0;
+    opacity: 0.05; /* 5% opacity */
+    pointer-events: none;
+    z-index: 1;
+    background-image: url('/assets/noise.svg');
+    background-size: 74.07vw 74.07vh; /* 800px converted to viewport units */
+    background-repeat: repeat;
+    image-rendering: -webkit-optimize-contrast; /* Sharp edges for WebKit */
+    image-rendering: -moz-crisp-edges; /* Sharp edges for Firefox */
+    image-rendering: pixelated; /* Nearest neighbor scaling */
+    image-rendering: crisp-edges; /* Fallback */
+    border-radius: inherit;
+    filter: contrast(2) brightness(1.2); /* Increase sharpness */
 }
 
 .rectangle::before {
