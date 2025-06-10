@@ -130,8 +130,6 @@ body {
     -webkit-backdrop-filter: blur(2.31vh); /* For Safari */
     position: relative;
     overflow: hidden;
-    /* Very subtle blur on background to reduce color banding */
-    filter: blur(0.05vh); /* ~0.5px blur to smooth gradient banding */
 }
 
 /* Noise overlay using SVG */
