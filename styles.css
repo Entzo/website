@@ -17,6 +17,12 @@ html {
     overflow-x: hidden; /* Prevent horizontal scrolling at document level */
 }
 
+/* Hidden verification links */
+.verification-hidden {
+    display: none;
+    visibility: hidden;
+}
+
 /* CSS variables for maintaining the aspect ratio */
 :root {
     --navbar-height: 6.02vh;   /* 65px in 1080p */
@@ -227,7 +233,7 @@ html {
 .mod-description {
     font-family: 'Outfit', sans-serif;
     font-size: 1.85vh; /* 20px in 1080p */
-    font-weight: 300; /* Light weight */
+    font-weight: 400; /* Regular weight */
     color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
     margin: 0 0 4.63vh 0; /* 50px bottom margin for spacing above button */
     text-align: center;
@@ -284,11 +290,11 @@ html {
 .footer-logo {
     position: absolute;
     bottom: 4.63vh; /* 50px in 1080p */
-    right: 2.34vw;  /* ~45px in 1920p - slightly reduced to match visual balance */
+    right: 4.63vh;  /* 50px in 1080p - matching bottom padding using vh units */
     width: 17.03vw; /* 327px in 1920p */
     height: 5.74vh; /* 62px in 1080p */
     object-fit: contain; /* Maintains aspect ratio */
-    max-width: calc(100vw - 4.68vw); /* Ensure it doesn't extend beyond viewport */
+    max-width: calc(100vw - 9.26vh); /* Ensure it doesn't extend beyond viewport */
 }
 
 /* Footer content layout */
