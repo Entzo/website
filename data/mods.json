@@ -1,0 +1,68 @@
+{
+    "mods": [
+        {
+            "id": "mod1",
+            "name": "Drawer",
+            "description": "Adds drawers to the game",
+            "image": "/assets/mods/mod1.png",
+            "downloadUrl": "https://modrinth.com/mod/drawer",
+            "featured": true
+        },
+        {
+            "id": "mod2",
+            "name": "Main Mod 2", 
+            "description": "Another featured main mod with essential features",
+            "image": "/assets/mods/mod2.png",
+            "downloadUrl": "/mods/mod2",
+            "featured": true
+        },
+        {
+            "id": "mod3",
+            "name": "Main Mod 3",
+            "description": "The third featured main mod with popular features", 
+            "image": "/assets/mods/mod3.png",
+            "downloadUrl": "/mods/mod3",
+            "featured": true
+        },
+        {
+            "id": "mod4",
+            "name": "Additional Mod 1",
+            "description": "An additional mod with specialized functionality",
+            "image": "/assets/mods/mod4.png",
+            "downloadUrl": "/mods/mod4",
+            "featured": false
+        },
+        {
+            "id": "mod5",
+            "name": "Additional Mod 2",
+            "description": "Another useful mod for specific use cases",
+            "image": "/assets/mods/mod5.png",
+            "downloadUrl": "/mods/mod5",
+            "featured": false
+        },
+        {
+            "id": "mod6",
+            "name": "Additional Mod 3",
+            "description": "A supplementary mod with extra features",
+            "image": "/assets/mods/mod6.png",
+            "downloadUrl": "/mods/mod6",
+            "featured": false
+        },
+        {
+            "id": "mod7",
+            "name": "Additional Mod 4",
+            "description": "A utility mod for enhanced gameplay",
+            "image": "/assets/mods/mod7.png",
+            "downloadUrl": "/mods/mod7",
+            "featured": false
+        },
+        {
+            "id": "mod8",
+            "name": "Additional Mod 5",
+            "description": "An experimental mod with new mechanics",
+            "image": "/assets/mods/mod8.png",
+            "downloadUrl": "/mods/mod8",
+            "featured": false
+        }
+    ]
+}

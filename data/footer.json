@@ -1,0 +1,60 @@
+{
+    "logo": {
+        "src": "/assets/branding/logo.png",
+        "alt": "EntzoMC Logo",
+        "link": "/"
+    },
+    "sections": {
+        "contact": {
+            "title": "Contact",
+            "links": [
+                {
+                    "name": "Email",
+                    "href": "mailto:contact@entzomc.com"
+                },
+                {
+                    "name": "Support",
+                    "href": "/support"
+                }
+            ]
+        },
+        "social": {
+            "title": "Social",
+            "links": [
+                {
+                    "name": "GitHub",
+                    "href": "https://github.com/entzo"
+                },
+                {
+                    "name": "Discord",
+                    "href": "https://discord.gg/entzomc"
+                },
+                {
+                    "name": "Twitter",
+                    "href": "https://twitter.com/entzomc"
+                }
+            ]
+        },
+        "source": {
+            "title": "Source",
+            "links": [
+                {
+                    "name": "Modrinth",
+                    "href": "https://modrinth.com/user/entzo"
+                },
+                {
+                    "name": "CurseForge",
+                    "href": "https://www.curseforge.com/members/entzo"
+                },
+                {
+                    "name": "Website Source",
+                    "href": "https://github.com/entzo/entzomc-website"
+                }
+            ]
+        }
+    },
+    "copyright": {
+        "text": "© 2025 EntzoMC. All rights reserved.",
+        "year": 2025
+    }
+}

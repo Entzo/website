@@ -17,20 +17,81 @@
         <img src="/assets/branding/logo.png" alt="Logo" class="nav-logo">
         <div class="nav-links"></div>
     </nav>
-      <div class="mods-frame">
+    
+    <div class="mods-frame">
         <div class="mods-container">
-            <div class="mod-rectangle rectangle">
-                <button class="pill-button">More info</button>
+            <div class="mod-rectangle rectangle" data-mod-id="mod1">
+                <div class="mod-info">
+                    <p class="mod-title">Loading...</p>
+                    <p class="mod-description">Loading mod information...</p>
+                    <button class="pill-button">More info</button>
+                </div>
             </div>
-            <div class="mod-rectangle rectangle">
-                <button class="pill-button">More info</button>
+            <div class="mod-rectangle rectangle" data-mod-id="mod2">
+                <div class="mod-info">
+                    <p class="mod-title">Loading...</p>
+                    <p class="mod-description">Loading mod information...</p>
+                    <button class="pill-button">More info</button>
+                </div>
             </div>
-            <div class="mod-rectangle rectangle">
-                <button class="pill-button">More info</button>
-            </div>
-        </div>
+            <div class="mod-rectangle rectangle" data-mod-id="mod3">
+                <div class="mod-info">
+                    <p class="mod-title">Loading...</p>
+                    <p class="mod-description">Loading mod information...</p>
+                    <button class="pill-button">More info</button>
+                </div>
+            </div>        </div>
     </div>
     
+    <div class="more-mods-container">
+        <p class="more-mods-text">More mods</p>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="/assets/branding/logo.png" alt="EntzoMC Logo" class="footer-logo">
+        </div>
+    </footer>
+    
     <script src="/script.js"></script>
+    <script>
+        // Load mod data from JSON
+        function loadModData() {
+            fetch('/data/mods.json?' + new Date().getTime())
+                .then(response => response.json())
+                .then(data => {
+                    // Filter only featured mods
+                    const featuredMods = data.mods.filter(mod => mod.featured === true);
+                    
+                    // Update each mod rectangle
+                    featuredMods.forEach((mod, index) => {
+                        const modElement = document.querySelector(`[data-mod-id="${mod.id}"]`);
+                        if (modElement) {
+                            const titleElement = modElement.querySelector('.mod-title');
+                            const descElement = modElement.querySelector('.mod-description');
+                            const buttonElement = modElement.querySelector('.pill-button');
+                            
+                            if (titleElement) titleElement.textContent = mod.name;
+                            if (descElement) descElement.textContent = mod.description;
+                            if (buttonElement) {
+                                buttonElement.onclick = () => {
+                                    window.location.href = mod.downloadUrl;
+                                };
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading mod data:', error);
+                    // Keep loading text if error occurs
+                });
+        }
+        
+        // Load mod data when page loads
+        document.addEventListener('DOMContentLoaded', loadModData);
+        
+        // Also load when page changes (for SPA navigation)
+        document.addEventListener('pageChanged', loadModData);
+    </script>
 </body>
 </html>

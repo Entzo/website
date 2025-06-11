@@ -182,8 +182,7 @@ function updateNavigation() {
                         // Update the pill position with animation
                         navLinks.classList.add('ready'); // Enable transitions
                         navLinks.style.setProperty('--active-index', clickedIndex);
-                        
-                        // Get the href for navigation
+                          // Get the href for navigation
                         const href = this.getAttribute('href');
                         
                         // Special case for home page - ensure it's preloaded
@@ -192,7 +191,36 @@ function updateNavigation() {
                             preloadPage('/').then(() => {
                                 console.log('Home preload complete');
                             });
-                        }                        // Wait for animation to complete then transition seamlessly
+                        }
+                        
+                        // Start smooth scroll to top animation (300ms ease-in-out)
+                        const startScroll = window.pageYOffset || document.documentElement.scrollTop;
+                        const startTime = performance.now();
+                        const duration = 300; // 300ms to match transition timing
+                        
+                        function easeInOut(t) {
+                            // Cubic ease-in-out function
+                            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+                        }
+                        
+                        function animateScroll(currentTime) {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const easedProgress = easeInOut(progress);
+                            
+                            // Calculate current scroll position
+                            const currentScroll = startScroll * (1 - easedProgress);
+                            window.scrollTo(0, currentScroll);
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(animateScroll);
+                            }
+                        }
+                        
+                        // Start the scroll animation
+                        requestAnimationFrame(animateScroll);
+                        
+                        // Wait for animation to complete then transition seamlessly
                         setTimeout(() => {
                             console.log('Attempting transition to:', href);
                             // Try seamless transition first, fallback to normal navigation
@@ -223,8 +251,80 @@ function updateNavigation() {
         .catch(error => console.error('Error loading navigation:', error));
 }
 
+// Function to load footer content
+function loadFooter() {
+    fetch('/data/footer.json?' + new Date().getTime())
+        .then(response => response.json())
+        .then(data => {
+            const footerContent = document.querySelector('.footer-content');
+            if (!footerContent) return;
+            
+            // Clear existing content
+            footerContent.innerHTML = '';
+            
+            // Create categories container
+            const categoriesContainer = document.createElement('div');
+            categoriesContainer.className = 'footer-categories';
+            
+            // Add each section
+            Object.entries(data.sections).forEach(([key, section]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'footer-category';
+                
+                // Create title
+                const title = document.createElement('div');
+                title.className = 'footer-category-title';
+                title.textContent = section.title;
+                categoryDiv.appendChild(title);
+                
+                // Create links container
+                const linksDiv = document.createElement('div');
+                linksDiv.className = 'footer-links';
+                
+                // Add links
+                section.links.forEach(link => {
+                    const a = document.createElement('a');
+                    a.href = link.href;
+                    a.className = 'footer-link';
+                    a.textContent = link.name;
+                    
+                    // Add target="_blank" for external links
+                    if (link.href.startsWith('http') || link.href.startsWith('mailto:')) {
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                    }
+                    
+                    linksDiv.appendChild(a);
+                });
+                
+                categoryDiv.appendChild(linksDiv);
+                categoriesContainer.appendChild(categoryDiv);
+            });
+            
+            footerContent.appendChild(categoriesContainer);
+            
+            // Add logo
+            const logo = document.createElement('img');
+            logo.src = data.logo.src;
+            logo.alt = data.logo.alt;
+            logo.className = 'footer-logo';
+            
+            // Add click handler for logo if it has a link
+            if (data.logo.link) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', () => {
+                    window.location.href = data.logo.link;
+                });
+            }
+            
+            footerContent.appendChild(logo);
+        })
+        .catch(error => console.error('Error loading footer:', error));
+}
+
 // Initial load
 updateNavigation();
+loadFooter();
 
 // Preload all navigation pages after a short delay
 // This allows the current page to finish rendering first
@@ -254,4 +354,12 @@ window.addEventListener('popstate', function(e) {
         // Just update the navigation pill position
         updateNavigation();
     }
+});
+
+// Listen for page changes to reload footer
+document.addEventListener('pageChanged', function(e) {
+    // Reload footer content after page transition
+    setTimeout(() => {
+        loadFooter();
+    }, 100); // Small delay to ensure new page content is loaded
 });

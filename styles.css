@@ -10,6 +10,11 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh; /* Ensure full height */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+html {
+    overflow-x: hidden; /* Prevent horizontal scrolling at document level */
 }
 
 /* CSS variables for maintaining the aspect ratio */
@@ -175,16 +180,6 @@ body {
     z-index: -2;
 }
 
-/* Add page transition styles */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-body > *:not(nav) {
-    animation: fadeIn 0.2s ease-out;
-}
-
 /* Mods page styles */
 .mods-frame {
     width: 100%;
@@ -200,6 +195,8 @@ body > *:not(nav) {
     display: flex;
     justify-content: center;
     gap: var(--mods-rect-gap);
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 .mod-rectangle {
@@ -208,9 +205,33 @@ body > *:not(nav) {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 4.63vh; /* 50px in 1080p */
+    justify-content: flex-end; /* Align content to bottom */
+    padding: 4.63vh 4.63vh 4.63vh 4.63vh; /* 50px in 1080p on all sides */
     box-sizing: border-box;
+}
+
+.mod-info {
+    /* Remove margin-top: auto since parent now uses justify-content: flex-end */
+    margin-bottom: 0; /* Remove margin-bottom since we want tight spacing */
+}
+
+.mod-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.85vh; /* 20px in 1080p */
+    font-weight: 400; /* Regular weight */
+    color: white;
+    margin: 0 0 1.85vh 0; /* 20px bottom margin for spacing above description */
+    text-align: center;
+}
+
+.mod-description {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.85vh; /* 20px in 1080p */
+    font-weight: 300; /* Light weight */
+    color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    margin: 0 0 4.63vh 0; /* 50px bottom margin for spacing above button */
+    text-align: center;
+    line-height: 1.4; /* Improve readability */
 }
 
 /* Reusable button style based on navigation pill */
@@ -245,9 +266,158 @@ body > *:not(nav) {
 
 /* Make buttons inside mod rectangles fill the width */
 .mod-rectangle .pill-button {
-    width: calc(100% - 9.26vh); /* Add horizontal padding of 100px (9.26vh) total */
-    margin: 0 auto;
-    margin-top: auto; /* Push button to the bottom */
+    width: 100%;
+    margin: 0;
     box-sizing: border-box;
-    padding: 0 4.63vh; /* Add 50px (4.63vh) padding on each side */
+}
+
+/* Footer styles */
+.footer {
+    position: absolute;
+    top: 200vh; /* Position footer at 2x viewport height down the page */
+    width: 100%;
+    height: 43.70vh; /* 472px in 1080p */
+    background-color: #101010;
+    border-radius: 7.41vh 7.41vh 0 0; /* 80px rounded corners on top-left and top-right only */
+}
+
+.footer-logo {
+    position: absolute;
+    bottom: 4.63vh; /* 50px in 1080p */
+    right: 2.34vw;  /* ~45px in 1920p - slightly reduced to match visual balance */
+    width: 17.03vw; /* 327px in 1920p */
+    height: 5.74vh; /* 62px in 1080p */
+    object-fit: contain; /* Maintains aspect ratio */
+    max-width: calc(100vw - 4.68vw); /* Ensure it doesn't extend beyond viewport */
+}
+
+/* Footer content layout */
+.footer-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 4.63vh 0 0 2.60vw; /* 50px top and left padding */
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent footer content from overflowing */
+}
+
+.footer-categories {
+    display: flex;
+    gap: 2.60vw; /* 50px gap between categories */
+}
+
+.footer-category {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-category-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.59vh; /* 28px - same as button text */
+    font-weight: 600; /* Same as button text */
+    color: white;
+    margin: 0 0 1.85vh 0; /* 20px bottom margin */
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.85vh; /* 20px gap between links */
+}
+
+.footer-link {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.59vh; /* 28px - same as category titles */
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    text-decoration: none; /* No underlines */
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: white; /* Full white on hover */
+}
+
+/* Page-specific styles */
+
+/* 404 Error page styles */
+.nav-links[style*="--active-index: -1"]::after {
+    /* Hide the white background pill when no item is active */
+    opacity: 0;
+}
+
+.nav-links[style*="--active-index: -1"] .nav-link {
+    color: white;
+}
+
+.error-container {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 35.65vh; /* 385px in 1080p */
+    color: white;
+}
+
+.error-code {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11.85vh; /* 128px in 1080p */
+    font-weight: 700;
+    margin: 0;
+}
+
+.error-message {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.7vh; /* 40px in 1080p */
+    font-weight: 400;
+    margin-top: 1.85vh; /* 20px in 1080p */
+}
+
+/* Blog page Coming Soon styles */
+.coming-soon-container {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 35.65vh; /* 385px in 1080p */
+    color: white;
+}
+
+.coming-soon-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11.85vh; /* 128px in 1080p */
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Home page hero text styles */
+.hero-text-container {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 35.65vh; /* 385px in 1080p */
+    color: white;
+    padding: 0 5.68vw; /* 109px padding on left and right in 1920p */
+    box-sizing: border-box;
+}
+
+.hero-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11.85vh; /* 128px in 1080p */
+    font-weight: 700;
+    margin: 0;
+}
+
+/* More mods section styles */
+.more-mods-container {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 85vh; /* Position below the mods rectangles */
+    color: white;
+}
+
+.more-mods-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 5.93vh; /* 64px in 1080p */
+    font-weight: 700;
+    margin: 0;
 }

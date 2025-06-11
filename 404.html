@@ -9,39 +9,6 @@
         .nav-links {
             opacity: 0;
         }
-        
-        /* Special styling for 404 page navigation */
-        .nav-links[style*="--active-index: -1"]::after {
-            /* Hide the white background pill when no item is active */
-            opacity: 0;
-        }
-        
-        /* All links should be white on 404 page */
-        .nav-links[style*="--active-index: -1"] .nav-link {
-            color: white;
-        }
-        
-        .error-container {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            top: 35.65vh; /* 385px in 1080p */
-            color: white;
-        }
-        
-        .error-code {
-            font-family: 'Outfit', sans-serif;
-            font-size: 11.85vh; /* 128px in 1080p */
-            font-weight: 700;
-            margin: 0;
-        }
-        
-        .error-message {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3.7vh; /* 40px in 1080p */
-            font-weight: 400;
-            margin-top: 1.85vh; /* 20px in 1080p */
-        }
     </style>
 </head>
 <body>
@@ -54,8 +21,13 @@
         <p class="error-message">not found</p>
         <div style="margin-top: 1.85vh; display: flex; justify-content: center;"><!-- 20px in 1080p -->
             <a href="/" class="pill-button">Go to Home</a>
+        </div>    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="/assets/branding/logo.png" alt="EntzoMC Logo" class="footer-logo">
         </div>
-    </div>
+    </footer>
     
     <script>
         // Custom script for 404 page navigation
