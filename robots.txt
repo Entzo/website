@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://entzomc.com/sitemap.xml
+
+# Crawl delay (optional - 1 second between requests)
+Crawl-delay: 1
+
+# Disallow crawling of data files
+Disallow: /data/
+Disallow: /assets/fonts/
+Disallow: /*.bat$
+Disallow: /*.new$
