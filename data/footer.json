@@ -1,6 +1,5 @@
-{
-    "logo": {
-        "src": "/assets/branding/logo.png",
+{    "logo": {
+        "src": "/assets/branding/logo.avif",
         "alt": "EntzoMC Logo",
         "link": "/"
     },
