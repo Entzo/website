@@ -22,21 +22,21 @@
     
     <div class="mods-frame">
         <div class="mods-container">
-            <div class="mod-rectangle rectangle" data-mod-id="mod1">
+            <div class="mod-rectangle neuro-rectangle" data-mod-id="mod1">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
                     <button class="pill-button">More info</button>
                 </div>
             </div>
-            <div class="mod-rectangle rectangle" data-mod-id="mod2">
+            <div class="mod-rectangle neuro-rectangle" data-mod-id="mod2">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
                     <button class="pill-button">More info</button>
                 </div>
             </div>
-            <div class="mod-rectangle rectangle" data-mod-id="mod3">
+            <div class="mod-rectangle neuro-rectangle" data-mod-id="mod3">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
@@ -44,27 +44,33 @@
                 </div>
             </div>        </div>
     </div>
-    
-    <div class="more-mods-container">
+      <div class="more-mods-container">
         <p class="more-mods-text">More mods</p>
     </div>
-      <footer class="footer">
+    
+    <div class="additional-mods-frame">
+        <div class="additional-mods-container">
+            <!-- Additional mods will be loaded here dynamically -->
+        </div>
+    </div>
+    
+    <footer class="footer">
         <div class="footer-content">
             <img src="/assets/branding/logo.avif" alt="EntzoMC Logo" class="footer-logo">
         </div>
     </footer>
     
-    <script src="/script.js"></script>
-    <script>
+    <script src="/script.js"></script>    <script>
         // Load mod data from JSON
         function loadModData() {
             fetch('/data/mods.json?' + new Date().getTime())
                 .then(response => response.json())
                 .then(data => {
-                    // Filter only featured mods
+                    // Filter featured and additional mods
                     const featuredMods = data.mods.filter(mod => mod.featured === true);
+                    const additionalMods = data.mods.filter(mod => mod.featured === false);
                     
-                    // Update each mod rectangle
+                    // Update featured mod rectangles
                     featuredMods.forEach((mod, index) => {
                         const modElement = document.querySelector(`[data-mod-id="${mod.id}"]`);
                         if (modElement) {
@@ -81,6 +87,52 @@
                             }
                         }
                     });
+                    
+                    // Create and update additional mods
+                    const additionalModsContainer = document.querySelector('.additional-mods-container');
+                    if (additionalModsContainer) {
+                        // Clear existing content
+                        additionalModsContainer.innerHTML = '';
+                        
+                        // Create elements for additional mods
+                        additionalMods.forEach(mod => {
+                            // Create mod rectangle
+                            const modElement = document.createElement('div');
+                            modElement.className = 'additional-mod-rectangle neuro-rectangle';
+                            modElement.setAttribute('data-mod-id', mod.id);
+                            
+                            // Create mod info container
+                            const infoElement = document.createElement('div');
+                            infoElement.className = 'mod-info';
+                            
+                            // Create title
+                            const titleElement = document.createElement('p');
+                            titleElement.className = 'mod-title';
+                            titleElement.textContent = mod.name;
+                            
+                            // Create description
+                            const descElement = document.createElement('p');
+                            descElement.className = 'mod-description';
+                            descElement.textContent = mod.description;
+                            
+                            // Create button
+                            const buttonElement = document.createElement('button');
+                            buttonElement.className = 'pill-button';
+                            buttonElement.textContent = 'More info';
+                            buttonElement.onclick = () => {
+                                window.location.href = mod.downloadUrl;
+                            };
+                            
+                            // Assemble elements
+                            infoElement.appendChild(titleElement);
+                            infoElement.appendChild(descElement);
+                            infoElement.appendChild(buttonElement);
+                            modElement.appendChild(infoElement);
+                            
+                            // Add to container
+                            additionalModsContainer.appendChild(modElement);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error loading mod data:', error);
