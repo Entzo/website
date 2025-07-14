@@ -2,27 +2,31 @@
 <html lang="en">
 <head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EntzoMC's Website - Mods">
-    <title>EntzoMC - Mods</title>
-    <link rel="icon" type="image/avif" href="/assets/branding/web-icon.avif">
-    <link rel="shortcut icon" href="/assets/branding/web-icon.avif">
-    <link rel="apple-touch-icon" href="/assets/branding/web-icon.avif">
+    <meta name="description" content="Find all of Entzo's mods">
+    <title>Entzo - Mods</title>
+    <link rel="icon" type="image/x-icon" href="/assets/branding/favicon.ico">
+    <link rel="shortcut icon" href="/assets/branding/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/branding/favicon.ico">
     <link rel="stylesheet" href="/styles.css">
     <style>
         /* Prevent flash of unstyled content */
         .nav-links {
             opacity: 0;
         }
+        /* Mods page: Keep footer in relative position */
+        .footer {
+            position: relative;
+        }
     </style>
 </head>
 <body>    <nav class="navbar rectangle">
-        <img src="/assets/branding/logo.avif" alt="Logo" class="nav-logo">
         <div class="nav-links"></div>
     </nav>
     
     <div class="mods-frame">
         <div class="mods-container">
             <div class="mod-rectangle neuro-rectangle" data-mod-id="mod1">
+                <img src="/assets/mod-logos/drawer.avif" alt="Mod Logo" class="mod-logo">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
@@ -30,6 +34,7 @@
                 </div>
             </div>
             <div class="mod-rectangle neuro-rectangle" data-mod-id="mod2">
+                <img src="/assets/mod-logos/drawer.avif" alt="Mod Logo" class="mod-logo">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
@@ -37,6 +42,7 @@
                 </div>
             </div>
             <div class="mod-rectangle neuro-rectangle" data-mod-id="mod3">
+                <img src="/assets/mod-logos/drawer.avif" alt="Mod Logo" class="mod-logo">
                 <div class="mod-info">
                     <p class="mod-title">Loading...</p>
                     <p class="mod-description">Loading mod information...</p>
@@ -56,7 +62,7 @@
     
     <footer class="footer">
         <div class="footer-content">
-            <img src="/assets/branding/logo.avif" alt="EntzoMC Logo" class="footer-logo">
+            <img src="/assets/branding/logo/entzo-logo-light-full.svg" alt="Entzo Logo" class="footer-logo">
         </div>
     </footer>
     
@@ -74,10 +80,12 @@
                     featuredMods.forEach((mod, index) => {
                         const modElement = document.querySelector(`[data-mod-id="${mod.id}"]`);
                         if (modElement) {
+                            const logoElement = modElement.querySelector('.mod-logo');
                             const titleElement = modElement.querySelector('.mod-title');
                             const descElement = modElement.querySelector('.mod-description');
                             const buttonElement = modElement.querySelector('.pill-button');
                             
+                            if (logoElement) logoElement.src = mod.logo;
                             if (titleElement) titleElement.textContent = mod.name;
                             if (descElement) descElement.textContent = mod.description;
                             if (buttonElement) {
@@ -100,6 +108,12 @@
                             const modElement = document.createElement('div');
                             modElement.className = 'additional-mod-rectangle neuro-rectangle';
                             modElement.setAttribute('data-mod-id', mod.id);
+                            
+                            // Create mod logo
+                            const logoElement = document.createElement('img');
+                            logoElement.src = mod.logo;
+                            logoElement.alt = 'Mod Logo';
+                            logoElement.className = 'mod-logo';
                             
                             // Create mod info container
                             const infoElement = document.createElement('div');
@@ -127,6 +141,7 @@
                             infoElement.appendChild(titleElement);
                             infoElement.appendChild(descElement);
                             infoElement.appendChild(buttonElement);
+                            modElement.appendChild(logoElement);
                             modElement.appendChild(infoElement);
                             
                             // Add to container

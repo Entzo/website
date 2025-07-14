@@ -132,8 +132,9 @@ function preloadAllNavLinks() {
 function updateNavigation() {
     fetch('/data/navigation.json?' + new Date().getTime())  // Prevent caching
         .then(response => response.json())
-        .then(data => {            // We're now using CSS to maintain aspect ratio
-            // No need to set width from JSON as it's calculated based on height
+        .then(data => {
+            // Update CSS variables from JSON
+            document.documentElement.style.setProperty('--navbar-width', data.width);
             document.documentElement.style.setProperty('--navbar-ratio', data.width / 6.02);
 
             // Clear existing links

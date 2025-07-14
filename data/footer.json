@@ -1,6 +1,6 @@
 {    "logo": {
-        "src": "/assets/branding/logo.avif",
-        "alt": "EntzoMC Logo",
+        "src": "/assets/branding/logo/entzo-logo-light-full.svg",
+        "alt": "Entzo Logo",
         "link": "/"
     },
     "sections": {
@@ -53,7 +53,7 @@
         }
     },
     "copyright": {
-        "text": "© 2025 EntzoMC. All rights reserved.",
+        "text": "© 2025 Entzo. All rights reserved.",
         "year": 2025
     }
 }

@@ -20,14 +20,14 @@ html {
 /* CSS variables for maintaining the aspect ratio */
 :root {
     --navbar-height: 6.02vh;   /* 65px in 1080p */
-    --navbar-width: 36.645vw;  /* 703px in 1920p - from navigation.json */
+    --navbar-width: 45.56vh;   /* 4 × 11.39vh (492px in 1080p) */
     --navbar-ratio: calc(var(--navbar-width) / var(--navbar-height));
 
     /* Mods frame dimensions */
     --mods-frame-height: 53.24vh;   /* 575px in 1080p */
     --mods-rect-width: 25.78vw;     /* 495px in 1920p */
     --mods-rect-height: 53.24vh;    /* 575px in 1080p */
-    --mods-rect-gap: 5.63vw;        /* 108px in 1920p */
+    --mods-rect-gap: 10vh;          /* 108px in 1080p */
     --mods-y-position: 19.63vh;     /* 212px in 1080p */
 
     /* Adding button dimensions */
@@ -36,9 +36,9 @@ html {
 }
 
 .navbar.rectangle {
-    /* Fixed height with aspect ratio to maintain proportions */
+    /* Fixed height with width from navigation.json */
     height: var(--navbar-height);
-    width: calc(var(--navbar-height) * 10.82); /* Based on 703px:65px ratio */
+    width: var(--navbar-width);
     position: fixed;
     top: 2.31vh;         /* 25px in 1080p */
     left: 50%;
@@ -47,24 +47,15 @@ html {
     overflow: visible; /* Allow pill to overflow navbar */
 }
 
-.nav-logo {
-    position: absolute;
-    left: 1.71%;       /* 12px / 703px = ~1.71% of navbar width */
-    top: 24.62%;       /* 16px / 65px = ~24.62% of navbar height */
-    width: 23.76%;     /* 167px / 703px = ~23.76% of navbar width */
-    height: 49.23%;    /* 32px / 65px = ~49.23% of navbar height */
-    object-fit: contain; /* Maintains aspect ratio */
-}
-
 .nav-links {
     /* No default active index - will be set via JavaScript before visibility */
     --active-index: 0;
     --item-count: 4; /* Number of nav links */
     display: flex;
     position: absolute;
-    left: 30.01%;    /* (12px + 167px + 32px) / 703px = ~30.01% of navbar width */
+    left: 0;         /* Start from the beginning since no logo */
     height: 100%;
-    width: 69.99%;   /* Remaining space for links */
+    width: 100%;     /* Full width for links */
     margin: 0;
     padding: 0;
     opacity: 0; /* Start hidden */
@@ -88,7 +79,8 @@ html {
 
 .nav-link {
     height: 100%;
-    flex: 1;           /* Each link takes equal width */
+    width: 11.39vh;    /* 123px in 1080p - fixed width for each link */
+    flex: none;        /* Remove flex behavior to use fixed width */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,36 +192,54 @@ html {
 /* Mods page styles */
 .mods-frame {
     width: 100%;
-    height: var(--mods-frame-height);
-    position: absolute;
+    position: relative; /* Changed from absolute to relative */
     top: var(--mods-y-position);
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Changed to column to stack mods grid and "More mods" text */
+    align-items: center; /* Center align items */
+    padding: 0 4.63vh; /* Add horizontal padding */
+    box-sizing: border-box;
+    margin-bottom: 15vh; /* Spacing after the entire mods section */
 }
 
 .mods-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 45.83vh); /* 495px converted to vh (495/1080*100) */
     justify-content: center;
     gap: var(--mods-rect-gap);
+    padding: 0 var(--mods-rect-gap); /* Add padding only left and right, same as gap */
     max-width: 100vw;
     box-sizing: border-box;
+    margin-bottom: 15vh; /* Add spacing after featured mods grid */
 }
 
 .mod-rectangle {
     width: 45.83vh; /* 495px in 1080p converted to vh - same as additional mods */
-    height: var(--mods-frame-height);
+    height: var(--mods-rect-height);
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Align content to bottom */
-    padding: 4.63vh 4.63vh 4.63vh 4.63vh; /* 50px in 1080p on all sides */
+    justify-content: flex-start; /* Changed to start to accommodate logo at top */
+    padding: 4.63vh;
     box-sizing: border-box;
 }
 
+/* Mod logo styles */
+.mod-logo {
+    /* Reduced size for more breathing room: approximately 20vh instead of 24.47vh */
+    width: 20vh;
+    height: 20vh; /* Square logo */
+    object-fit: contain;
+    border-radius: 2.31vh; /* 25px converted to vh (25/1080*100) */
+    margin-bottom: 4.63vh; /* Same padding as button spacing */
+    align-self: center; /* Center the logo horizontally */
+}
+
 .mod-info {
-    /* Remove margin-top: auto since parent now uses justify-content: flex-end */
-    margin-bottom: 0; /* Remove margin-bottom since we want tight spacing */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Take up remaining space after logo */
+    margin-bottom: 0;
 }
 
 .mod-title {
@@ -246,9 +256,13 @@ html {
     font-size: 1.85vh; /* 20px in 1080p */
     font-weight: 400; /* Regular weight */
     color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
-    margin: 0 0 4.63vh 0; /* 50px bottom margin for spacing above button */
+    margin: 0 0 4.63vh 0; /* Bottom margin for spacing above button */
     text-align: center;
     line-height: 1.4; /* Improve readability */
+    flex-grow: 1; /* Fill remaining space between title and button */
+    display: flex;
+    align-items: center; /* Center text vertically in the available space */
+    justify-content: center; /* Center text horizontally */
 }
 
 /* Reusable button style based on navigation pill */
@@ -259,7 +273,7 @@ html {
     height: var(--button-height);
     border-radius: var(--button-radius);
     background-color: white;
-    padding: 0 2.08vw;  /* Add some horizontal padding */
+    padding: 0 4.63vh;  /* Match footer logo padding - 50px in 1080p */
     cursor: pointer;
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
@@ -292,8 +306,6 @@ html {
 
 /* Footer styles */
 .footer {
-    position: absolute;
-    top: calc(250vh + var(--mods-rect-gap)); /* Dynamic positioning based on content */
     width: 100%;
     height: 43.70vh; /* 472px in 1080p */
     background-color: #101010;
@@ -304,8 +316,8 @@ html {
     position: absolute;
     bottom: 4.63vh; /* 50px in 1080p */
     right: 4.63vh;  /* 50px in 1080p - matching bottom padding using vh units */
-    width: 30.28vh; /* 327px in 1080p converted to vh (327/1080*100) */
     height: 5.74vh; /* 62px in 1080p */
+    width: auto;    /* Let width adjust automatically based on SVG aspect ratio */
     object-fit: contain; /* Maintains aspect ratio */
     max-width: calc(100vw - 9.26vh); /* Ensure it doesn't extend beyond viewport */
 }
@@ -315,7 +327,7 @@ html {
     position: relative;
     width: 100%;
     height: 100%;
-    padding: 4.63vh 0 0 4.63vh; /* 50px top and left padding - using vh for consistency */
+    padding: 4.63vh 4.63vh 0 4.63vh; /* 50px padding on all sides except bottom - consistent with logo positioning */
     box-sizing: border-box;
     overflow: hidden; /* Prevent footer content from overflowing */
 }
@@ -425,31 +437,30 @@ html {
     margin: 0;
 }
 
-/* More mods section styles */
+/* More mods section styles - now part of mods-frame */
 .more-mods-container {
-    position: absolute;
     width: 100%;
     text-align: center;
-    top: 85vh; /* Position below the mods rectangles */
     color: white;
+    margin-bottom: 15vh; /* Spacing after the text */
 }
 
 .more-mods-text {
     font-family: 'Outfit', sans-serif;
     font-size: 5.93vh; /* 64px in 1080p */
     font-weight: 700;
-    margin: 0 0 10vh 0; /* Add bottom margin for spacing to additional mods */
+    margin: 0; /* Remove bottom margin since container now handles spacing */
 }
 
 /* Additional mods section styles */
 .additional-mods-frame {
     width: 100%;
-    position: absolute;
-    top: 100vh; /* Position below the more mods text */
+    position: relative; /* Changed from absolute to relative */
     display: flex;
     justify-content: center;
     padding: 0 4.63vh; /* Add horizontal padding */
     box-sizing: border-box;
+    margin-bottom: 15vh; /* Increased spacing to match other sections */
 }
 
 .additional-mods-container {
@@ -457,6 +468,7 @@ html {
     grid-template-columns: repeat(auto-fit, 45.83vh); /* 495px converted to vh (495/1080*100) */
     justify-content: center;
     gap: var(--mods-rect-gap);
+    padding: 0 var(--mods-rect-gap); /* Add padding only left and right, same as gap */
     max-width: 100vw;
     box-sizing: border-box;
 }
@@ -468,7 +480,7 @@ html {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Align content to bottom */
+    justify-content: flex-start; /* Changed to start to accommodate logo at top */
     padding: 4.63vh;
     box-sizing: border-box;
 }
